@@ -1,0 +1,137 @@
+============= Change Password ================
+import os
+import boto3
+
+previous_password="Cliuser@0"
+new_password="Cliuser@9"
+access_token="eyJraWQiOiJsYThXcFwvOUFINENUWkhrQUloazdSdEdsb2tROWNRUk1UT0g0aGFGUXloST0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI0YjNkOGEzOC0xMDYyLTQ2Y2MtYTBhOC1iN2FlNDI4MDJmNzciLCJkZXZpY2Vfa2V5IjoiYXAtc291dGgtMV84MmJiNzk4OS1jMmJhLTRiZDMtYTA4OS01NWMzZjZjMjU3ZWUiLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAuYXAtc291dGgtMS5hbWF6b25hd3MuY29tXC9hcC1zb3V0aC0xXzNmamZPcFVBTSIsImNsaWVudF9pZCI6IjJrbjIxODI1aXZtdHMxdmRkMGNzaGY2aDJnIiwib3JpZ2luX2p0aSI6IjNiY2U1NjU5LWQwMzItNGU0NS04MGExLTFmNjlmZjExY2JkYyIsImV2ZW50X2lkIjoiYmQwY2Y4NTYtNTUyOS00NGZjLTgxYjQtZDA3NDc5ODhkYzU3IiwidG9rZW5fdXNlIjoiYWNjZXNzIiwic2NvcGUiOiJhd3MuY29nbml0by5zaWduaW4udXNlci5hZG1pbiIsImF1dGhfdGltZSI6MTY1Nzk2MTE3NiwiZXhwIjoxNjU3OTY0Nzc2LCJpYXQiOjE2NTc5NjExNzYsImp0aSI6IjgwYTI0Zjg0LTZjN2YtNGI2Yy05OGY2LWU2ZTFkZDQwNTAyNyIsInVzZXJuYW1lIjoiY2xpdXNlciJ9.VBIDcZPvFu4_uji-6laromqsfqogjoPqzq67XI03CiZYehXHH5qyGiiIli8EQ-ZeuZM_MdHs5JavYt-xrgbyGD_MYvlEQec6dLxw9kA2guKWSstOBN9Db2LH5p_9RArM3kZNy3YVkBGdcb6JXS_aHimA8RelQdYq_V2RXa7CIKaCWCrusShKGqAFVHWlBdPzWaiN_vBAZNGTRUL5oZ5-gOaH96C3kA0NNns4GhQ8xKlIoF1YJ-e3yUOf3tVUbcdQh0EYiAfmIFPcoWRLJ2RwHNEkx820m_q5OSKgwPVMlAzsAylMzuSL97OOKPdPkENvgfOX_mfamUhR9DxKtH9qXw"
+client = boto3.client('cognito-idp', region_name='ap-south-1')
+response = client.change_password(
+    PreviousPassword=previous_password,
+    ProposedPassword=new_password,
+    AccessToken=access_token
+)
+
+print(response)
+
+============= confirm_forgot_password.py ==================
+
+import os
+import boto3
+
+username = 'cliuser7'
+confirm_code = '212094'
+password = 'Cliuser@9'
+
+client = boto3.client('cognito-idp',region_name='ap-south-1' )
+response = client.confirm_forgot_password(
+    
+    ClientId='XXXXXXXXXXXXX',
+    Username=username,
+    ConfirmationCode=confirm_code,
+    Password=password
+)
+
+print(response)
+
+
+============== confirm_sign_up.py ===============
+
+import os
+import boto3
+
+username = 'cliuser'
+confirm_code = '857011'
+
+client = boto3.client('cognito-idp', region_name='ap-south-1')
+response = client.confirm_sign_up(
+    ClientId='XXXXXXXXXXXX',
+    Username=username,
+    ConfirmationCode=confirm_code
+)
+
+print(response)
+
+
+============= init_auth.py ================
+
+
+import os
+import boto3
+
+username = 'cliuser7'
+password = 'Cliuser@9'
+
+client = boto3.client('cognito-idp', region_name='ap-south-1')
+response = client.initiate_auth(
+    ClientId='XXXXXXXXXXXXXXX',
+    AuthFlow='USER_PASSWORD_AUTH',
+    AuthParameters={
+        'USERNAME': username,
+        'PASSWORD': password
+    }
+)
+
+print(response)
+
+print('AccessToken', response['AuthenticationResult']['AccessToken'])
+print('RefreshToken', response['AuthenticationResult']['RefreshToken'])
+
+================.  sign_up.py =============
+import os
+import boto3
+
+username = 'cliuser8'
+password = 'Cliuser@1'
+
+client = boto3.client('cognito-idp', region_name='ap-south-1')
+response = client.sign_up(
+    ClientId='XXXXXXXXXXXXXXXXXXX',
+    Username=username,
+    Password=password,
+    UserAttributes=[{'Name': 'email','Value': 'kthulasikumar@gmail.com'},{'Name': 'email_verified','Value': 'true'}]
+)
+
+print(response)
+
+response = client.admin_confirm_sign_up(
+                UserPoolId='XXXXXXXXX',
+                Username=username)
+print(response)
+
+===========. update_email_status.py ============
+
+import os
+import boto3
+
+
+client = boto3.client('cognito-idp', region_name='ap-south-1')
+response = client.admin_update_user_attributes(
+    UserPoolId='XXXXXXXXXXXXXXXXXXX',
+    Username='cliuser7',
+    UserAttributes=[
+        {
+            'Name': 'email_verified',
+            'Value': 'true'
+        },
+    ]
+)
+print(response)
+
+===========. verify_email.py ==============
+
+
+import os
+import boto3
+
+access_token=
+"eyJraWQiOiJsYThXcFwvOUFINENUWkhrQUloazdSdEdsb2tROWNRUk1UT0g0aGFGUXloST0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI2OTBlMWQ4My02ZjJkLTQ0OGUtYWQxZi03ZDBkZGU2ZmI1ZDEiLCJkZXZpY2Vfa2V5IjoiYXAtc291dGgtMV8xZDJmNTAwOC02ZTRmLTQyNTQtYWY1Yy1iYTVlZDhhMjhjYTYiLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAuYXAtc291dGgtMS5hbWF6b25hd3MuY29tXC9hcC1zb3V0aC0xXzNmamZPcFVBTSIsImNsaWVudF9pZCI6IjJrbjIxODI1aXZtdHMxdmRkMGNzaGY2aDJnIiwib3JpZ2luX2p0aSI6IjhmZWU0ZTEzLTBlNTMtNDM2OS05NDg3LTViNTBkNmRhMjhiMCIsImV2ZW50X2lkIjoiMzNmYWU4NGUtNmZmMi00MzJmLThkODItYzFiYjBiYjllZDg1IiwidG9rZW5fdXNlIjoiYWNjZXNzIiwic2NvcGUiOiJhd3MuY29nbml0by5zaWduaW4udXNlci5hZG1pbiIsImF1dGhfdGltZSI6MTY1ODExNTgzNiwiZXhwIjoxNjU4MTE5NDM2LCJpYXQiOjE2NTgxMTU4MzYsImp0aSI6ImQ1NDgyMTEyLWJkNzItNGUzMS1iNDhiLWFjMTdiNjg5MGZjZSIsInVzZXJuYW1lIjoiY2xpdXNlcjcifQ.GSuMf-1UKQJKhb1CgttYGLOvahBRWLUFEmRRLV06Oq_oYBvOGZn1WTcDoLcVTD0tZhhjCokHEOGM190uKo_fq08dlyQc5RshKeIV_tIiuDvNs4SBQLJx3yEZUtCJS7Lc3AlUqsdlG8xnc8aYoUGHDkjvHXXr9COU9S9Ydt858J6EEkbj3PVv09yyCmGKDNMGoacRyYQCC4htjjCbEUr_jZm3MlavYILattQbCt4_S_5IMes78LMznTCl6MwZs1dzklR4_dmgVGAi7cyl1Drawmm_9L3n4JJ5c2KBT5dyr7RPJJRrlohpMrGyijsfdomgAlrj3ptYlwIUG3_nmfayEA"
+client = boto3.client('cognito-idp', region_name='ap-south-1')
+
+response = client.verify_user_attribute(
+    AccessToken=access_token,
+    AttributeName='email',
+    Code='588609'
+)
+print(response)
+
